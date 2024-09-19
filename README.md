@@ -8,7 +8,7 @@
 ![GPT-4V](https://img.shields.io/badge/Model-GPT--4V-green)
 ![Claude-3.5](https://img.shields.io/badge/Model-Claude--3.5-green)
 
-Official repository for the paper "[MMSearch: Benchmarking the Potential of Large Models as Multi-modal Search Engines]()".
+Official repository for "[MMSearch: Benchmarking the Potential of Large Models as Multi-modal Search Engines]()".
 
 🌟 For more details, please refer to the project page with dataset exploration and visualization tools: [https://mmsearch.github.io/](https://mmsearch.github.io).
 
