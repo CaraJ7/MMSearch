@@ -21,7 +21,7 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 
 ## 📌 ToDo
 
-- Coming soon: *Evaluation codes*
+- Coming soon: *MMSearch-Engine* and *Evaluation codes*
 
 ## 👀 About MMSearch
 
