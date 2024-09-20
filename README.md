@@ -46,7 +46,13 @@ In addition, we propose a **step-wise evaluation strategy** to better understand
     Outline of Evaluation Tasks, Inputs, and Outputs.
 </p>
 
-An example of LMM input, output, and ground truth for four evaluation tasks is shown [here](figs/fig4.png).
+<details>
+<summary>🔍 An example of LMM input, output, and ground truth for four evaluation tasks</summary>
+
+<p align="center">
+    <img src="figs/fig4.png" width="50%"> <br>
+</p>
+</details>
 
 ## 🏆 Leaderboard
 
