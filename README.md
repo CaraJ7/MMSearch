@@ -1,4 +1,4 @@
-# MMSearch 🔥: Benchmarking the Potential of Large Models as Multi-modal Search Engines
+# MMSearch 🔥🔍: Benchmarking the Potential of Large Models as Multi-modal Search Engines
 
 ![MultimodalSearch](https://img.shields.io/badge/Task-Multimodal_Search-red) 
 ![Multimodal AI Search Engine](https://img.shields.io/badge/Task-Multimodal_AI_Search_Engine-red) 
