@@ -13,12 +13,12 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 🌟 For more details, please refer to the project page with dataset exploration and visualization tools: [https://mmsearch.github.io/](https://mmsearch.github.io).
 
 
-[[🌐 Webpage](https://mmsearch.github.io/)] [[📖 Paper]()] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/CaraJ/MMSearch)] [[🏆 Leaderboard](https://mmsearch.github.io/#leaderboard)] [[🔍 Visualization](https://huggingface.co/datasets/CaraJ/MMSearch/viewer)]
+[[🌐 Webpage](https://mmsearch.github.io/)] [[📖 Paper](https://arxiv.org/pdf/2409.12959)] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/CaraJ/MMSearch)] [[🏆 Leaderboard](https://mmsearch.github.io/#leaderboard)] [[🔍 Visualization](https://huggingface.co/datasets/CaraJ/MMSearch/viewer)]
 
 
 ## 💥 News
 
-- **[2024.09.20]** 🚀 We release the [arXiv paper]() and some data samples in the [visualizer](https://huggingface.co/datasets/CaraJ/MMSearch/viewer).
+- **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and some data samples in the [visualizer](https://huggingface.co/datasets/CaraJ/MMSearch/viewer).
 
 ## 📌 ToDo
 
