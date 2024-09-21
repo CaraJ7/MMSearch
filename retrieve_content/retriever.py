@@ -4,7 +4,6 @@ from FlagEmbedding import BGEM3FlagModel
 from retrieve_content.tokenization import tokenizers
 from dataclasses import dataclass
 from typing import Optional
-import torch
 
 JOIN_WITH_WHITESPACE: str = "join_with_whitespace"
 

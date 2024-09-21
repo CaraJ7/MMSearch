@@ -6,6 +6,7 @@ import os
 import json
 import datetime
 import datasets
+from tqdm import tqdm
 
 from utils.logging_utils import setup_logging
 import logging
@@ -38,7 +39,7 @@ def parse_args():
     argparser.add_argument("--fullpage_num", default=1, type=int)
     argparser.add_argument("--save_path", default='output/end2end/debug', type=str)
     argparser.add_argument("--save_middle_results", type=str, default='')
-    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args')
+    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args.json', help='LMM generation parameters, should be a json')
     argparser.add_argument("--verbose", action='store_true', default=False,)
     return argparser.parse_args()
     
@@ -80,7 +81,7 @@ pipeline:
 '''
 
 result_list = []
-for data_index, inst in enumerate(anno):
+for data_index, inst in tqdm(enumerate(anno)):
     # only run the instance for current rank
     if data_index < rank_start or data_index >= rank_end:
         continue
@@ -256,7 +257,8 @@ for data_index, inst in enumerate(anno):
         query=inst['query'],
         requery=requery,
         gt_requery=inst['gt_requery'],
-        req_score=req_score,
+        req_score=req_score['score'],
+        req_score_dict=req_score,
         prediction=prediction,
         gt_answer=gt_answer,
         f1_score=f1_score,
@@ -271,9 +273,9 @@ for data_index, inst in enumerate(anno):
     json.dump(save_inst, open(os.path.join(sample_save_path, f"{inst['sample_id']}.json"), 'w'), indent=4)
     result_list.append(save_inst)
 
-result_summary = get_result_summary(anno, result_list, key=['req_score', 'f1_score'])
-logger.info(f"Total length: {result_summary['total_dict']['total_length']}")
-logger.info(f"Average Rerank Score: {result_summary['total_dict']['average']}")
+result_summary = get_result_summary(anno, result_list, summary_key=['req_score', 'f1_score'])
+logger.info(f"Total length: {result_summary['f1_score']['total_dict']['total_length']}")
+logger.info(f"Average F1 Score: {result_summary['f1_score']['total_dict']['average']}")
 json.dump(
     result_summary, 
     open(os.path.join(args.save_path, f"result_summary_end2end.json"), 'w'), 

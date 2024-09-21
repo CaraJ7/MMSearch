@@ -1,5 +1,6 @@
 import os
 import json
+from tqdm import tqdm
 
 from utils.logging_utils import setup_logging
 import logging
@@ -27,7 +28,7 @@ def parse_args():
     argparser.add_argument("--world-size", type=int, default=1)
     argparser.add_argument("--rank", type=int, default=0)
     argparser.add_argument("--save_path", default='output/summarization/debug', type=str)
-    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args')
+    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args.json', help='LMM generation parameters, should be a json')
     return argparser.parse_args()
     
 args = parse_args()
@@ -47,7 +48,7 @@ rank_end = (args.rank+1)*bin if args.rank != args.world_size - 1 else len(anno)
 fullpage_num = 1
 
 result_list = []
-for data_index, inst in enumerate(anno):
+for data_index, inst in tqdm(enumerate(anno)):
     # only run the instance for current rank
     if data_index < rank_start or data_index >= rank_end:
         continue
@@ -125,9 +126,9 @@ for data_index, inst in enumerate(anno):
     json.dump(save_inst, open(os.path.join(sample_save_path, f"{inst['sample_id']}.json"), 'w'), indent=4)
     result_list.append(save_inst)
 
-result_summary = get_result_summary(anno, result_list, key='f1_score')
-logger.info(f"Total length: {result_summary['total_dict']['total_length']}")
-logger.info(f"Average f1_score: {result_summary['total_dict']['average']}")
+result_summary = get_result_summary(anno, result_list, summary_key='f1_score')
+logger.info(f"Total length: {result_summary['f1_score']['total_dict']['total_length']}")
+logger.info(f"Average f1_score: {result_summary['f1_score']['total_dict']['average']}")
 json.dump(
     result_summary, 
     open(os.path.join(args.save_path, f"result_summary.json"), 'w'), 

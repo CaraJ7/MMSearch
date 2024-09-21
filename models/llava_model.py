@@ -46,6 +46,10 @@ class Llava_Onevision:
 
     # for onevision interleaved
     def infer(self, image_files, text_query):
+        '''
+        image_files: a list of image file path or bytes (could be directly loaded with Image.open()). The order of the image files is the same order to LMM.
+        text_query: the instruction to the LMM. We use '<image>' to denote the place for an image.
+        '''
         qs = text_query
         # Prepare interleaved text-image input
         conv = copy.deepcopy(conv_templates[self.conv_mode])

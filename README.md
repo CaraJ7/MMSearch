@@ -17,11 +17,12 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 
 ## 💥 News
 
+- **[2024.09.22]** 🔥 We release the [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself).
 - **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and some data samples in the [visualizer](https://huggingface.co/datasets/CaraJ/MMSearch/viewer).
 
 ## 📌 ToDo
 
-- Coming soon: *MMSearch-Engine* and *Evaluation codes*
+- Coming soon: *MMSearch-Engine*
 
 ## 👀 About MMSearch
 
@@ -52,6 +53,58 @@ In addition, we propose a **step-wise evaluation strategy** to better understand
     <img src="figs/fig4.png" width="50%"> <br>
 </p>
 </details>
+
+## 💪 Evaluation by yourself
+
+Here, **we support evaluation of any custom LMMs with only very little effort**. To evaluate your LMM, you only need to provide an `infer` function, which takes the image files and text instructions as input and outputs the model response. Then you are free to go!
+
+### Environment 
+The environment is mainly for interacting with the search engine and crawl the website:
+
+```bash
+pip install requirements.txt
+playwright install
+```
+
+### Evaluation
+
+Note that there are four tasks for computing the final score of MMSearch: end2end, requery, rerank, and summarization. 
+
+The requery task is automatically evaluated when conducting the end2end task. Therefore, to evaluate on all the tasks in MMSearch, you only need to conduct evaluation on the end2end, rerank and summarization tasks. The evaluation codes are as follows:
+
+```bash
+# end2end task
+bash scripts/run_end2end.sh
+# rerank task
+bash scripts/run_rerank.sh
+# summarization task
+bash scripts/run_summarization.sh
+```
+
+After the three scripts completes, run the following code to get the final score:
+
+```bash
+bash scripts/run_get_final_score.sh
+```
+
+Here are some important notes:
+
+1. **How to set the parameters?**
+   + We provide the example input args in the bash file mentioned above.
+   + The end2end task needs to interact with the Internet and the search engine. Please adjust the timeout time in `constants.py` for loading the website according to your network status.
+
+2. **How to add my LMM for evaluation?**
+
+   We implement the code of LLaVA-OneVision in `models/llava_model.py`. **Adding a model is very simple with only two steps**:
+
+   1. Implement a class for the model. The model class must implement the `infer` function, which takes image files and text instructions as input. Please refer to `models/llava_model.py` for the illustration of input variable types.
+   2. Add the model type in ``models/load.py``. Then you can specify the model_type in your bash file and use your model!
+
+3. **Evaluation time and multiple gpus inference**
+
+   Typically, the end2end task takes the longest time since it conducts three rounds sequentially and needs to interacte with the Internet. We provide a very basic mechanism for inference with multiple GPUs, where we provide an example in `scripts/run_rerank_parallel.sh` . However, **we do not recommend running end2end task with too many GPUs** since it will hit the rate limit of the search engine API and refuse to respond.
+
+
 
 ## 🏆 Leaderboard
 

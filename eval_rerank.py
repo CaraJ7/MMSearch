@@ -1,5 +1,6 @@
 import os
 import json
+from tqdm import tqdm
 
 from utils.logging_utils import setup_logging
 import logging
@@ -26,7 +27,7 @@ def parse_args():
     argparser.add_argument("--brief_result_num", default=8, type=int)
     argparser.add_argument("--fullpage_num", default=1, type=int)
     argparser.add_argument("--save_path", default='output/rerank/debug', type=str)
-    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args')
+    argparser.add_argument("--generation_args_path", type=str, default='customs/generation_args.json', help='LMM generation parameters, should be a json')
     return argparser.parse_args()
 
 
@@ -49,7 +50,7 @@ fullpage_num = args.fullpage_num
 
 
 result_list = []
-for data_index, inst in enumerate(anno):
+for data_index, inst in tqdm(enumerate(anno)):
     # only run the instance for current rank
     if data_index < rank_start or data_index >= rank_end:
         continue
@@ -119,7 +120,6 @@ for data_index, inst in enumerate(anno):
         score = 1
     else:
         score = 0
-    logger.info(f'score: {score}')
 
     save_inst = dict(
         sample_id=inst['sample_id'],
@@ -138,9 +138,9 @@ for data_index, inst in enumerate(anno):
     json.dump(save_inst, open(os.path.join(sample_save_path, f"{inst['sample_id']}.json"), 'w'), indent=4)
     result_list.append(save_inst)
 
-result_summary = get_result_summary(anno, result_list, key='rer_score')
-logger.info(f"Total length: {result_summary['total_dict']['total_length']}")
-logger.info(f"Average Rerank Score: {result_summary['total_dict']['average']}")
+result_summary = get_result_summary(anno, result_list, summary_key='rer_score')
+logger.info(f"Total length: {result_summary['rer_score']['total_dict']['total_length']}")
+logger.info(f"Average Rerank Score: {result_summary['rer_score']['total_dict']['average']}")
 json.dump(
     result_summary, 
     open(os.path.join(args.save_path, f"result_summary_rerank.json"), 'w'), 

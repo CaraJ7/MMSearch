@@ -3,8 +3,8 @@ import json
 def load_model(args):
     # load generation args
     if args.generation_args_path != None:
-        generation_args = json.load(open(args.generation_args))
-
+        generation_args = json.load(open(args.generation_args_path))
+    # load model
     if 'Llava_Onevision' in args.model_type:
         from models.llava_model import Llava_Onevision
         conv_mode = 'qwen_1_5'
