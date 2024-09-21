@@ -56,10 +56,10 @@ In addition, we propose a **step-wise evaluation strategy** to better understand
 
 ## 💪 Evaluation by yourself
 
-Here, **we support evaluation of any custom LMMs with only very little effort**. To evaluate your LMM, you only need to provide an `infer` function, which takes the image files and text instructions as input and outputs the model response. Then you are free to go!
+Here, **we support evaluation of any custom LMMs with only very little effort**. To evaluate your LMM, you only need to provide an `infer` function, which takes the image files and text instructions as input and outputs the model response.
 
 ### Environment 
-The environment is mainly for interacting with the search engine and crawl the website:
+The environment is mainly for interacting with the search engine and crawling the website:
 
 ```bash
 pip install requirements.txt
@@ -70,7 +70,7 @@ playwright install
 
 Note that there are four tasks for computing the final score of MMSearch: end2end, requery, rerank, and summarization. 
 
-The requery task is automatically evaluated when conducting the end2end task. Therefore, to evaluate on all the tasks in MMSearch, you only need to conduct evaluation on the end2end, rerank and summarization tasks. The evaluation codes are as follows:
+The requery task is automatically evaluated when conducting the end2end task. Therefore, to evaluate all the tasks in MMSearch, you only need to conduct evaluation on the end2end, rerank and summarization tasks. The evaluation codes are as follows:
 
 ```bash
 # end2end task
@@ -81,7 +81,7 @@ bash scripts/run_rerank.sh
 bash scripts/run_summarization.sh
 ```
 
-After the three scripts completes, run the following code to get the final score:
+After the three scripts complete, run the following code to get the final score:
 
 ```bash
 bash scripts/run_get_final_score.sh
