@@ -52,9 +52,6 @@ for data_index, inst in tqdm(enumerate(anno)):
     # only run the instance for current rank
     if data_index < rank_start or data_index >= rank_end:
         continue
-    
-    if inst['query_image'] is None:
-        continue
 
     # if this sample already exists, load the instance and continue
     if os.path.exists(os.path.join(sample_save_path, f"{inst['sample_id']}.json")):
