@@ -1,73 +1,59 @@
 from tqdm import tqdm
 from FlagEmbedding import BGEM3FlagModel
 
-from retrieve_content.tokenization import tokenizers
+from retrieve_content.tokenization.tokenizers import LexicalAnalyzer
 from dataclasses import dataclass
 from typing import Optional
 
-JOIN_WITH_WHITESPACE: str = "join_with_whitespace"
 
 @dataclass
 class Config:
-    num_threads: int = 5
-    docs_limit: Optional[int] = None
-    docs_offset: Optional[int] = None
-    chunk_length: int = 256
+    chunk_length: int = 200
     slidew: bool = False
     sentb: bool = False
-    title: bool = False
-    paragraphs: bool = False
-    detokenization_strategy: str = JOIN_WITH_WHITESPACE
     TopK: int = 8
 
 
 class Content_Retriever:
     def __init__(self):
         # define tokenizer
-        self.tokenizer = tokenizers.WordTokenizer()
-        self.tokenizer_offsets = tokenizers.WordTokenizer(do_char_offsets=True)
+        self.tokenizer = LexicalAnalyzer()
+        self.tokenizer_offsets = LexicalAnalyzer(do_char_positions=True)
 
         self.config = Config()
 
-        self.tokenizer_offsets.passage_len = self.config.chunk_length
-        self.tokenizer_offsets.do_sliding_window_passages = self.config.slidew
-        self.tokenizer_offsets.respect_sent_boundaries = self.config.sentb
+        self.tokenizer_offsets.settings['do_sliding_window_passages'] = self.config.slidew
+        self.tokenizer_offsets.settings['respect_sent_boundaries'] = self.config.sentb
         # define retrieval model
         self.model = BGEM3FlagModel(
             'BAAI/bge-m3',  
             use_fp16=True
         ) # Setting use_fp16 to True speeds up computation with a slight performance degradation
 
-    def split_doc_into_passages(self, doc, detokenization_strategy: str = JOIN_WITH_WHITESPACE):
+    def split_doc_into_passages(self, doc):
         text = doc
         passages = []
-        if detokenization_strategy == JOIN_WITH_WHITESPACE:
-            passages_tokens = self.tokenizer.tokenize_passages(text)
-            for passage_idx, passage_tokens in enumerate(passages_tokens):
-                if self.tokenizer.respect_sent_boundaries:
-                    # passages_tokens: List[List[str]]
-                    tokens = []
-                    for psg in passage_tokens:
-                        tokens.extend(psg)
-                    passage_tokens = tokens
-                if len(passage_tokens) == 0:
-                    continue
-                # passages_tokens: List[str]
-                passage_text = " ".join(passage_tokens)
-                passages.append(passage_text)
+
+        passages_tokens = self.tokenizer.analyze_excerpts(text)
+        for _, passage_tokens in enumerate(passages_tokens):
+            if self.tokenizer.settings['respect_sent_boundaries']:
+
+                tokens = []
+                for psg in passage_tokens:
+                    tokens.extend(psg)
+                passage_tokens = tokens
+            if len(passage_tokens) == 0:
+                continue
+
+            passage_text = " ".join(passage_tokens)
+            passages.append(passage_text)
         
         return passages
 
-    def try_split_passages(self, doc):
-        try:
-            return self.split_doc_into_passages(doc, self.config.detokenization_strategy)
-        except ValueError as e:
-            print('ValueError:', e)
-            return None
     
     def get_retrieved_content(self, requery, content):
         docs = [content]
-        all_chucks = self.try_split_passages(content)
+        all_chucks = self.split_doc_into_passages(content)
         # encode
         output_1 = self.model.encode([requery], return_dense=True, return_sparse=True, return_colbert_vecs=True, batch_size=12, max_length=self.config.chunk_length)
         output_2 = self.model.encode(all_chucks, return_dense=True, return_sparse=True, return_colbert_vecs=True, batch_size=12, max_length=self.config.chunk_length)

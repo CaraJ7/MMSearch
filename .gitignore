@@ -4,3 +4,5 @@ output/
 models_debug/
 temp_files/
 tools_debug/
+scripts_debug/
+*.zip

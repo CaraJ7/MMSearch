@@ -19,17 +19,3 @@ class PickleWriteable:
                 return pickle.load(f)
         except (pickle.PickleError, OSError) as e:
             raise IOError('Unable to load {} from path: {}'.format(cls.__name__, path)) from e
-
-
-class JsonWriteable:
-    """Mixin for persisting an instance with json."""
-
-    def save(self, path):
-        with open(path, 'w') as f:
-            json.dump(self.__dict__, f)
-
-    @classmethod
-    def load(cls, path):
-        with open(path) as f:
-            keyword_args = json.load(f)
-        return cls(**keyword_args)
