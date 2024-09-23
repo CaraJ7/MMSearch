@@ -52,9 +52,6 @@ for data_index, inst in tqdm(enumerate(anno)):
     # only run the instance for current rank
     if data_index < rank_start or data_index >= rank_end:
         continue
-    
-    if inst['query_image'] is None:
-        continue
 
     # if this sample already exists, load the instance and continue
     if os.path.exists(os.path.join(sample_save_path, f"{inst['sample_id']}.json")):
@@ -112,6 +109,10 @@ for data_index, inst in tqdm(enumerate(anno)):
 
     gt_answer = inst['gt_answer']
     f1_score = get_f1_score(prediction, gt_answer)
+    for gt_alternative_answer in inst['alternative_gt_answers']:
+        alternative_f1_score = get_f1_score(prediction, gt_alternative_answer)
+        if alternative_f1_score > f1_score:
+            f1_score = alternative_f1_score
 
     save_inst = dict(
         sample_id=inst['sample_id'],

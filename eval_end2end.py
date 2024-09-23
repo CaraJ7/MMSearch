@@ -251,6 +251,10 @@ for data_index, inst in tqdm(enumerate(anno)):
     ## end2end
     gt_answer = inst['gt_answer']
     f1_score = get_f1_score(prediction, gt_answer)
+    for gt_alternative_answer in inst['alternative_gt_answers']:
+        alternative_f1_score = get_f1_score(prediction, gt_alternative_answer)
+        if alternative_f1_score > f1_score:
+            f1_score = alternative_f1_score
 
     save_inst = dict(
         sample_id=inst['sample_id'],

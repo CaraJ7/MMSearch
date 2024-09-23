@@ -115,9 +115,9 @@ for data_index, inst in tqdm(enumerate(anno)):
     if not valid:
         score = 0
     elif selected_index in inst['valid']:
-        score = 2
-    elif selected_index in inst['not_sure']:
         score = 1
+    elif selected_index in inst['not_sure']:
+        score = 0.5
     else:
         score = 0
 
