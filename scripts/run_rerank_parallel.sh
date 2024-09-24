@@ -11,6 +11,8 @@ do
     PW_TEST_SCREENSHOT_NO_FONTS_READY=1 \
     CUDA_VISIBLE_DEVICES=$i \
     PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
+    RANK=$i \
+    WORLD_SIZE=8 \
     python eval_rerank.py \
     --rank $i \
     --world-size 8 \
