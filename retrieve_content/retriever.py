@@ -27,7 +27,8 @@ class Content_Retriever:
         # define retrieval model
         self.model = BGEM3FlagModel(
             'BAAI/bge-m3',  
-            use_fp16=True
+            use_fp16=False,
+            device='cpu'
         ) # Setting use_fp16 to True speeds up computation with a slight performance degradation
 
     def split_doc_into_passages(self, doc):

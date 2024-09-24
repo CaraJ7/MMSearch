@@ -6,3 +6,6 @@ temp_files/
 tools_debug/
 scripts_debug/
 *.zip
+debug.py
+vlmeval_model_image_dir
+mmsearch_logs

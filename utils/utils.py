@@ -22,6 +22,9 @@ from constants import *
 
 logger = logging.getLogger(__name__)
 
+RANK = os.getenv('RANK', 0)
+WORLD_SIZE = os.getenv('WORLD_SIZE', 1)
+
 ### Proxy setting
 def get_proxy_settings():
     http_proxy = os.environ.get('HTTP_PROXY') or os.environ.get('http_proxy')
@@ -69,7 +72,7 @@ class RapidAPI:
         
         for attempt in range(max_retries):
             try:
-                time.sleep(5)  # Avoid frequent requests
+                time.sleep(random.choice([i for i in range(5, 10 + 20 * WORLD_SIZE, 5)]))  # Avoid frequent requests
                 response = list(self.ddgs.text(' '.join(text.strip("'").split(' ')[:100]), max_results=max_results))
                 return response[:max_results]
             except Exception as e:

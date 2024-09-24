@@ -111,7 +111,7 @@ for data_index, inst in tqdm(enumerate(anno)):
 
 result_summary = get_result_summary(anno, result_list, summary_key='req_score')
 logger.info(f"Total length: {result_summary['req_score']['total_dict']['total_length']}")
-logger.info(f"Average Rerank Score: {result_summary['req_score']['total_dict']['average']}")
+logger.info(f"Average Requery Score: {result_summary['req_score']['total_dict']['average']}")
 json.dump(
     result_summary, 
     open(os.path.join(args.save_path, f"result_summary_requery.json"), 'w'), 
