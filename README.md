@@ -23,7 +23,7 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 
 ## 📌 ToDo
 
-- Coming soon: *MMSearch-Engine*, *MMSearch-Engine* demo, evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval).
+- Coming soon: *MMSearch-Engine* for new query, *MMSearch-Engine* demo, evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval).
 
 ## 👀 About MMSearch
 
