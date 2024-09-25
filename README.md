@@ -19,11 +19,11 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 
 - **[2024.09.25]** 🌟 The [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself) now supports directly use models implemented in [VLMEvalKit](https://github.com/open-compass/VLMEvalKit)!
 - **[2024.09.22]** 🔥 We release the [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself), which you only need to add an inference API of your LMM!
-- **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and some data samples in the [visualizer](https://huggingface.co/datasets/CaraJ/MMSearch/viewer).
+- **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and all MMSearch data samples in [huggingface dataset](https://huggingface.co/datasets/CaraJ/MMSearch).
 
 ## 📌 ToDo
 
-- Coming soon: *MMSearch-Engine*, *MMSearch-Engine* demo, evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval).
+- Coming soon: *MMSearch-Engine* (for new query), *MMSearch-Engine* demo, evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval).
 
 ## 👀 About MMSearch
 
