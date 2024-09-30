@@ -1,0 +1,11 @@
+[
+    {
+        "query": "When is the US release date for this movie?",
+        "query_image": "demo/demo.png",
+        "query_image_url": "https://github.com/CaraJ7/MMSearch/raw/main/demo/demo.png"
+    },
+    {
+        "query": "When is the US release date for Venom: The Last Dance?",
+        "query_image": null
+    }
+]
