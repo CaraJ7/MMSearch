@@ -1,6 +1,5 @@
 tqdm
 datasets
-tqdm
 Pillow
 numpy
 opencv-python

@@ -16,13 +16,14 @@ Official repository for "[MMSearch: Benchmarking the Potential of Large Models a
 
 
 ## 💥 News
-
-- **[2024.09.22]** 🔥 We release the [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself).
-- **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and some data samples in the [visualizer](https://huggingface.co/datasets/CaraJ/MMSearch/viewer).
+- **[2024.09.25]** 🌟 MMSearch now supports evaluation in [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)! Details are [here](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself).
+- **[2024.09.25]** 🌟 The [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation) now supports directly use models implemented in [VLMEvalKit](https://github.com/open-compass/VLMEvalKit)!
+- **[2024.09.22]** 🔥 We release the [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation), which you only need to add an inference API of your LMM!
+- **[2024.09.20]** 🚀 We release the [arXiv paper](https://arxiv.org/abs/2409.12959) and all MMSearch data samples in [huggingface dataset](https://huggingface.co/datasets/CaraJ/MMSearch).
 
 ## 📌 ToDo
 
-- Coming soon: *MMSearch-Engine*, *MMSearch-Engine* demo, evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) and [VLMEvalKit](https://github.com/open-compass/VLMEvalKit).
+- Coming soon: *MMSearch-Engine* (for new query), *MMSearch-Engine* demo.
 
 ## 👀 About MMSearch
 
@@ -54,11 +55,10 @@ In addition, we propose a **step-wise evaluation strategy** to better understand
 </p>
 </details>
 
-## 💪 Evaluation by yourself
+## 📈 Evaluation by yourself
 
-Here, **we support evaluation of any custom LMMs with only very little effort**. To evaluate your LMM, you only need to provide an `infer` function, which takes the image files and text instructions as input and outputs the model response.
+### Setup Environment 
 
-### Environment 
 The environment is mainly for interacting with the search engine and crawling the website:
 
 ```bash
@@ -66,7 +66,34 @@ pip install requirements.txt
 playwright install
 ```
 
-### Evaluation
+### Get your LMMs ready
+
+#### ✨ Evaluation with models implemented in [VLMEvalKit](https://github.com/open-compass/VLMEvalKit)
+
+We now support directly using the models implemented in [VLMEvalKit](https://github.com/open-compass/VLMEvalKit). You need to first install VLMEvalKit with the following command, or follow the guidance in its repo:
+
+```bash
+git clone https://github.com/open-compass/VLMEvalKit.git
+cd VLMEvalKit
+pip install -e .
+```
+
+Then, you can directly use the models implemented in VLMEvalKit, the available name list of the model is [here](https://github.com/open-compass/VLMEvalKit/blob/main/vlmeval/config.py). 
+
+To use the model, simply add the prefix `vlmevalkit_` in front of the model name in the list. For example, to use `llava_onevision_qwen2_7b_ov`, your input `model_type` should be `vlmevalkit_llava_onevision_qwen2_7b_ov`. We provide an example of the rerank task in `scripts/run_requery_vlmevalkit.sh`.
+
+**Note that, several models in VLMEvalKit do not support text-only inference, so it may not support end2end task (some queries in round1 do not have image input).**
+
+#### 💪 Evaluation with custom LMMs
+
+Here, **we support evaluation of any custom LMMs with only very little effort**. To evaluate your LMM, you only need to provide an `infer` function, which takes the image files and text instructions as input and outputs the model response.
+
+We implement the code of LLaVA-OneVision in `models/llava_model.py`. **Adding a model is very simple with only two steps**:
+
+1. Implement a class for the model. The model class must implement the `infer` function, which takes image files and text instructions as input. Please refer to `models/llava_model.py` for the illustration of input variable types.
+2. Add the model type in ``models/load.py``. Then you can specify the `model_type` in your bash file and use your model!
+
+### Begin evaluation!
 
 Note that there are four tasks for computing the final score of MMSearch: end2end, requery, rerank, and summarization. 
 
@@ -93,18 +120,13 @@ Here are some important notes:
    + We provide the example input args in the bash file mentioned above.
    + The end2end task needs to interact with the Internet and the search engine. Please adjust the timeout time in `constants.py` for loading the website according to your network status.
 
-2. **How to add my LMM for evaluation?**
+2. **Evaluation time and multiple gpus inference**
 
-   We implement the code of LLaVA-OneVision in `models/llava_model.py`. **Adding a model is very simple with only two steps**:
+   Typically, the end2end task takes the longest time since it conducts three rounds sequentially and needs to interacte with the Internet. We provide a very basic mechanism for inference with multiple GPUs, where we provide an example in `scripts/run_rerank_parallel.sh` . However, **we do not recommend running end2end task with too many GPUs** since it will hit the rate limit of the search engine API and refuse to respond. Normally, running end2end task will take up 3-5 hours for a single GPU.
 
-   1. Implement a class for the model. The model class must implement the `infer` function, which takes image files and text instructions as input. Please refer to `models/llava_model.py` for the illustration of input variable types.
-   2. Add the model type in ``models/load.py``. Then you can specify the model_type in your bash file and use your model!
-
-3. **Evaluation time and multiple gpus inference**
-
-   Typically, the end2end task takes the longest time since it conducts three rounds sequentially and needs to interacte with the Internet. We provide a very basic mechanism for inference with multiple GPUs, where we provide an example in `scripts/run_rerank_parallel.sh` . However, **we do not recommend running end2end task with too many GPUs** since it will hit the rate limit of the search engine API and refuse to respond.
-
-
+## Evaluation with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)
+You need also to set up the environment [specified above](https://github.com/CaraJ7/MMSearch#setup-environment).
+Then you can simply run the evaluation with lmms-eval commands. Note that, lmms-eval now only supports evaluating MMSearch with LLaVA-OneVision. More models will be supported very soon!
 
 ## 🏆 Leaderboard
 
