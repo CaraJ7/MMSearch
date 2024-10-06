@@ -162,6 +162,8 @@ bash demo/run_demo_cli.sh
 
 🚨 The [Leaderboard](https://mmsearch.github.io/#leaderboard) is continuously being updated, welcoming the contribution of your excellent LMMs!
 
+To contribute your model to the leaderboard, please email the prediction files of four tasks to 📫[jdzcarr7@gmail.com](mailto:jdzcarr7@gmail.com).
+
 ### Data Usage
 
 We release the MMSearch data for benchmarking on the leaderboard, which contains *300* queries and the middle results for step-wise evaluation.
