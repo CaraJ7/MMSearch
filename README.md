@@ -1,4 +1,4 @@
-# MMSearch 🔥🔍: Unveiling the Potential of Large Models as Multi-modal Search Engines
+# [ICLR 2025] MMSearch 🔥🔍: Unveiling the Potential of Large Models as Multi-modal Search Engines
 
 ![MultimodalSearch](https://img.shields.io/badge/Task-Multimodal_Search-red) 
 ![Multimodal AI Search Engine](https://img.shields.io/badge/Task-Multimodal_AI_Search_Engine-red) 
@@ -16,6 +16,7 @@ Official repository for "[MMSearch: Unveiling the Potential of Large Models as M
 
 
 ## 💥 News
+- **[2024.01.23]** 🎊🎊 MMSearch is accepted by ICLR 2025!
 - **[2024.09.30]** 🌏 We add MMSearch-Engine (for any new query) command line demo [here](https://github.com/CaraJ7/MMSearch#-demo)!
 - **[2024.09.25]** 🌟 MMSearch now supports evaluation in [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)! Details are [here](https://github.com/CaraJ7/MMSearch#-evaluation-by-yourself).
 - **[2024.09.25]** 🌟 The [evaluation code](https://github.com/CaraJ7/MMSearch#-evaluation) now supports directly use models implemented in [VLMEvalKit](https://github.com/open-compass/VLMEvalKit)!
